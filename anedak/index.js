@@ -1,3 +1,4 @@
+const retry = require("async-retry");
 const axios = require("axios");
 const Pact = require("pact-lang-api");
 const { toUSDTBalances } = require("../helper/balances");
@@ -104,31 +105,25 @@ const fetchKdaPrice = async () => {
   return res.data.kadena.usd;
 };
 
-const fetchKdaTotal = async (pairList) => {
-  let kdaTotal = 0;
-  for (let i = 0; i < pairList.length; i++) {
-    let pair = pairList[i];
-    kdaTotal += pair.reserves[0];
-  }
-  return kdaTotal;
-};
-
 async function fetch() {
-  const pairList = await getPairList();
+  const pairList = await retry(async (bail) => getPairList());
   const kdaPrice = await fetchKdaPrice();
-  const kdaTotal = await fetchKdaTotal(pairList);
-  const kdaInAnedakPair = pairList[0].reserves[0];
-  const kdaInBabenaPair = pairList[1].reserves[0];
-  const kdaInFluxPair = pairList[2].reserves[0];
-  const kdaInKdlPair = pairList[3].reserves[0];
+  const anedakPairKdaAmount = pairList[0].reserves[0];
+  const babenaPairKdaAmount = pairList[1].reserves[0];
+  const fluxPairKdaAmount = pairList[2].reserves[0];
+  const kdlPairKdaAmount = pairList[3].reserves[0];
 
+  /*
+   * value of each pool taken to be twice the value of its KDA
+   * since the only more liquid DEX on Kadena is Kaddex, which only has 1 of the pairs
+   */
   const tvl =
+    2 *
     kdaPrice *
-    (kdaTotal +
-      kdaInAnedakPair +
-      kdaInBabenaPair +
-      kdaInFluxPair +
-      kdaInKdlPair);
+    (anedakPairKdaAmount +
+      babenaPairKdaAmount +
+      fluxPairKdaAmount +
+      kdlPairKdaAmount);
 
   return toUSDTBalances(tvl);
 }
