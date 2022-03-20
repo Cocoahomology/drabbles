@@ -12,7 +12,7 @@ https://anedak.com/
 
 ##### Logo (High resolution, preferably in .svg and .png, for application on both white and black backgrounds. Will be shown with rounded borders):
 
-
+https://swap.anedak.com/images/crypto/anedak-logo.svg
 
 ##### Current TVL:
 
@@ -46,4 +46,4 @@ Dexes
 
 ##### methodology (what is being counted as tvl, how is tvl being calculated):
 
-TVL accounts for the liquidity on all AMM pools, with all values calculated in terms of KDA price.
+TVL accounts for the liquidity on all Anedak AMM pools, with all values calculated in terms of KDA price.
