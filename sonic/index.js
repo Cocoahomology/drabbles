@@ -19,7 +19,9 @@ const fetchICPPrice = async () => {
 const fetch = async () => {
   var poolBalances = [];
 
-  const poolList = await anonymousController.getPairList();
+  const poolList = await retry(
+    async (bail) => await anonymousController.getPairList()
+  );
 
   for (const pool in poolList) {
     if (poolIDs.includes(pool)) {
@@ -27,14 +29,14 @@ const fetch = async () => {
         ["token0"]: token0,
         ["token1"]: token1,
         ["reserve0"]: bigIntReserve0,
-        ["reserve1"]: bigIntReserve1
+        ["reserve1"]: bigIntReserve1,
       } = Object.values(poolList[pool])[0];
 
       poolBalances.push({
         ["token0"]: token0,
         ["token1"]: token1,
         ["bigIntReserve0"]: bigIntReserve0,
-        ["bigIntReserve1"]: bigIntReserve1
+        ["bigIntReserve1"]: bigIntReserve1,
       });
     }
   }
