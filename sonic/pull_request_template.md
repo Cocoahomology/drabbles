@@ -46,4 +46,4 @@ Dexes
 
 ##### methodology (what is being counted as tvl, how is tvl being calculated):
 
-TVL accounts for the liquidity on all Sonic AMM pools. Reserves are queried using the Sonic API.
+TVL accounts for the liquidity on all Sonic AMM pools. Reserves are queried on ICP using the Sonic API.
