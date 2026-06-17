@@ -157,16 +157,5 @@
       "circulating":{
          "tether":955733848
       }
-   },
-   "boba":{
-      "issued":{
-         "tether":4261675.393141
-      },
-      "unreleased":{
-         "tether":18049.192697
-      },
-      "circulating":{
-         "tether":4243626.200444
-      }
    }
 }
